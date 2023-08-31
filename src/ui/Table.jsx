@@ -1,5 +1,6 @@
+import { createContext, useContext } from "react";
 import styled from "styled-components";
-
+import PropTypes from "prop-types";
 const StyledTable = styled.div`
   border: 1px solid var(--color-grey-200);
 
@@ -40,17 +41,17 @@ const StyledBody = styled.section`
   margin: 0.4rem 0;
 `;
 
-const Footer = styled.footer`
-  background-color: var(--color-grey-50);
-  display: flex;
-  justify-content: center;
-  padding: 1.2rem;
+// const Footer = styled.footer`
+//   background-color: var(--color-grey-50);
+//   display: flex;
+//   justify-content: center;
+//   padding: 1.2rem;
 
-  /* This will hide the footer when it contains no child elements. Possible thanks to the parent selector :has 🎉 */
-  &:not(:has(*)) {
-    display: none;
-  }
-`;
+//   /* This will hide the footer when it contains no child elements. Possible thanks to the parent selector :has 🎉 */
+//   &:not(:has(*)) {
+//     display: none;
+//   }
+// `;
 
 const Empty = styled.p`
   font-size: 1.6rem;
@@ -58,3 +59,51 @@ const Empty = styled.p`
   text-align: center;
   margin: 2.4rem;
 `;
+
+const TableContext = createContext();
+function Table({ columns, children }) {
+  return (
+    <TableContext.Provider value={{ columns }}>
+      <StyledTable role="table">{children}</StyledTable>
+    </TableContext.Provider>
+  );
+}
+
+function Header({ children }) {
+  const { columns } = useContext(TableContext);
+  return (
+    <StyledHeader role="row" columns={columns} as="header">
+      {children}
+    </StyledHeader>
+  );
+}
+function Row({ children }) {
+  return <StyledRow role="row">{children}</StyledRow>;
+}
+function Body({ data, render }) {
+  if(data.length === 0) return <Empty>No data to show at the moment.</Empty>
+  return <StyledBody role="rowgroup">
+    {data.map(render)}
+  </StyledBody>;
+}
+
+Table.propTypes = {
+  columns: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired,
+};
+Header.propTypes = {
+  children: PropTypes.node.isRequired,
+};
+Row.propTypes = {
+  children: PropTypes.node.isRequired,
+};
+Body.propTypes = {
+  data: PropTypes.array.isRequired,
+  render: PropTypes.func.isRequired,
+};
+
+Table.Header = Header;
+Table.Row = Row;
+Table.Body = Body;
+
+export default Table;
