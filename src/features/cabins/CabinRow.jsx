@@ -87,8 +87,8 @@ function CabinRow({ cabin }) {
       )}
       <div>
         <Modal>
-          <Menus.Menu>
-            <Menus>
+          <Menus>
+            <Menus.Menu>
               <Menus.Toggle id={cabinId} />
 
               <Menus.List id={cabinId}>
@@ -119,8 +119,8 @@ function CabinRow({ cabin }) {
                   onConfirm={() => deleteCabin(cabinId)}
                 />
               </Modal.Window>
-            </Menus>
-          </Menus.Menu>
+            </Menus.Menu>
+          </Menus>
         </Modal>
       </div>
     </Table.Row>
