@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import PropTypes from 'prop-types'
 
 const StyledDataItem = styled.div`
   display: flex;
@@ -20,6 +21,11 @@ const Label = styled.span`
   }
 `;
 
+DataItem.propTypes = {
+  icon: PropTypes.element,
+  label: PropTypes.string,
+  children: PropTypes.node,
+}
 function DataItem({ icon, label, children }) {
   return (
     <StyledDataItem>

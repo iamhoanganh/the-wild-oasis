@@ -1,0 +1,8 @@
+import BookingDetail from 'src/features/bookings/BookingDetail.jsx'
+function Booking () {
+  return (
+    <BookingDetail />
+  )
+}
+
+export default Booking

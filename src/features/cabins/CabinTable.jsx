@@ -12,8 +12,8 @@ function CabinTable() {
     if (!cabins.length) return <Empty resourceName={'cabins'}/>;
     // 1) Filter
     const filterValue = searchParams.get('discount') || 'all'
-    console.log("filterValue", filterValue)
     let filteredCabins;
+
     if (filterValue === 'all') {
         filteredCabins = cabins
     }
