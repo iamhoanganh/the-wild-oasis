@@ -1,12 +1,23 @@
 import supabase from 'src/services/supabase.js'
 
 export async function login ({ email, password }) {
-  console.log("call api login")
   let { data, error } = await supabase.auth.signInWithPassword({
     email: email,
     password: password
   })
   if (error) throw new Error(error.message)
-  console.log("login data", data)
   return data
+}
+
+export async function getCurrentUser () {
+  const {data: session} = await supabase.auth.getSession()
+  if (!session.session) throw new Error(error.message)
+  const {data, error}= await supabase.auth.getUser()
+  if (error) throw new Error(error.message)
+  return data?.user;
+}
+
+export async function logout () {
+  const { error } = await supabase.auth.signOut()
+  if (error) throw new Error(error.message)
 }
