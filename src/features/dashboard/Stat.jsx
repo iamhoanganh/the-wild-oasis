@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import PropTypes from 'prop-types'
 
 const StyledStat = styled.div`
   /* Box */
@@ -46,7 +47,12 @@ const Value = styled.p`
   line-height: 1;
   font-weight: 500;
 `;
-
+Stat.propTypes = {
+  icon: PropTypes.element.isRequired,
+  title: PropTypes.string.isRequired,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  color: PropTypes.string.isRequired
+}
 function Stat({ icon, title, value, color }) {
   return (
     <StyledStat>

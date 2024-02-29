@@ -3,6 +3,9 @@ import styled from "styled-components";
 import { useRecentBooking } from 'src/features/dashboard/useRecentBooking.js'
 import Spinner from 'src/ui/Spinner.jsx'
 import { useRecentStay } from 'src/features/dashboard/useRecentStay.js'
+import Stats from 'src/features/dashboard/Stats.jsx'
+import { useCabins } from 'src/features/cabins/useCabins.js'
+import SalesChart from 'src/features/dashboard/SalesChart.jsx'
 // import PropTypes from 'prop-types'
 
 const StyledDashboardLayout = styled.div`
@@ -14,17 +17,19 @@ const StyledDashboardLayout = styled.div`
 
 const DashboardLayout = () => {
   const {isLoading : isLoadingBooking, bookings} = useRecentBooking()
-  const {isLoading : isLoadingStay, stays, confirmedStays} = useRecentStay()
-  if (isLoadingBooking || isLoadingStay) {
+  const {isLoading : isLoadingStay, stays, confirmedStays, numDays} = useRecentStay()
+  const {cabins, isLoading: isLoadingCabin} = useCabins()
+  if (isLoadingBooking || isLoadingStay || isLoadingCabin) {
     return <Spinner />
   }
-  console.log("bookings", bookings, stays, confirmedStays)
+  console.log("bookings", stays, )
   return (
     <StyledDashboardLayout>
+        <Stats confirmedStays={confirmedStays} bookings={bookings} numDays={numDays} cabinCount={cabins.length}/>
         <div>Static</div>
         <div>Today activity</div>
         <div>Chart stay durations</div>
-        <div>Chart sales</div>
+        <SalesChart bookings={bookings} numDays={numDays} />
     </StyledDashboardLayout>
   )
 }
