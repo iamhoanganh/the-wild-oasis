@@ -1,4 +1,8 @@
 import styled from "styled-components";
+import PropTypes from 'prop-types'
+import Heading from 'src/ui/Heading.jsx'
+import { Cell, Legend, Pie, PieChart, ResponsiveContainer } from 'recharts'
+import { useDarkMode } from 'src/context/DarkModeContext.jsx'
 
 const ChartBox = styled.div`
   /* Box */
@@ -115,7 +119,7 @@ function prepareData(startData, stays) {
 
   const data = stays
     .reduce((arr, cur) => {
-      const num = cur.numNights;
+      const num = cur.numberNights;
       if (num === 1) return incArrayValue(arr, "1 night");
       if (num === 2) return incArrayValue(arr, "2 nights");
       if (num === 3) return incArrayValue(arr, "3 nights");
@@ -130,3 +134,31 @@ function prepareData(startData, stays) {
 
   return data;
 }
+
+DurationChart.propTypes = {
+  confirmedStays: PropTypes.array.isRequired,
+}
+
+function DurationChart ({confirmedStays}) {
+  const {isDarkMode} = useDarkMode()
+  const startData = isDarkMode ? startDataDark : startDataLight;
+  const data = prepareData(startData, confirmedStays);
+  console.log("data", data)
+  return (
+    <ChartBox>
+      <Heading as={"h2"}>Stay duration sumary</Heading>
+      <ResponsiveContainer width={"100%"} height={240}>
+        <PieChart>
+        <Pie data={data} nameKey={'duration'} dataKey={'value'} innerRadius={85} outerRadius={110}
+             cx={'40%'} cy={'50%'} paddingAngle={3}>
+          {data.map(entry => <Cell fill={entry.color} stroke={entry.color} key={entry.duration}/>)}
+          <Legend verticalAlign={'middle'} align={'right'} width="30%" layout={'vertical'} iconSize={15}
+                  iconType={'circle'}/>
+        </Pie>
+        </PieChart>
+      </ResponsiveContainer>
+    </ChartBox>
+  )
+}
+
+export default DurationChart

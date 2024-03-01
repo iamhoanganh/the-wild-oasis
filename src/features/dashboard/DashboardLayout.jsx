@@ -6,6 +6,7 @@ import { useRecentStay } from 'src/features/dashboard/useRecentStay.js'
 import Stats from 'src/features/dashboard/Stats.jsx'
 import { useCabins } from 'src/features/cabins/useCabins.js'
 import SalesChart from 'src/features/dashboard/SalesChart.jsx'
+import DurationChart from 'src/features/dashboard/DurationChart.jsx'
 // import PropTypes from 'prop-types'
 
 const StyledDashboardLayout = styled.div`
@@ -22,13 +23,13 @@ const DashboardLayout = () => {
   if (isLoadingBooking || isLoadingStay || isLoadingCabin) {
     return <Spinner />
   }
-  console.log("bookings", stays, )
+  console.log("bookings", stays,confirmedStays )
   return (
     <StyledDashboardLayout>
         <Stats confirmedStays={confirmedStays} bookings={bookings} numDays={numDays} cabinCount={cabins.length}/>
         <div>Static</div>
         <div>Today activity</div>
-        <div>Chart stay durations</div>
+        <DurationChart confirmedStays={confirmedStays} />
         <SalesChart bookings={bookings} numDays={numDays} />
     </StyledDashboardLayout>
   )
