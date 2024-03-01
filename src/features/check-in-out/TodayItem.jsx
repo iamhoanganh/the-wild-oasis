@@ -1,4 +1,11 @@
+import React from 'react'
 import styled from "styled-components";
+import PropTypes from 'prop-types'
+import Tag from 'src/ui/Tag.jsx'
+import { Flag } from 'src/ui/Flag.jsx'
+import Button from 'src/ui/Button.jsx'
+import { Link } from 'react-router-dom'
+import CheckoutButton from 'src/features/check-in-out/CheckoutButton.jsx'
 
 const StyledTodayItem = styled.li`
   display: grid;
@@ -18,3 +25,25 @@ const StyledTodayItem = styled.li`
 const Guest = styled.div`
   font-weight: 500;
 `;
+
+
+TodayItem.propTypes = {
+  activity: PropTypes.object.isRequired
+}
+
+function TodayItem ({activity }){
+  const {id, status, guests, numNights} = activity
+  return (
+    <StyledTodayItem>
+      {status === 'unconfirmed' && <Tag type={'green'}>Arriving</Tag> }
+      {status === 'checked-in' && <Tag type={'blue'}>Departing</Tag> }
+      <Flag src={guests.countryFlag} alt={`Flag of ${guests.country}`} />
+      <Guest>{guests.fullName}</Guest>
+      <div>{numNights} nights</div>
+      {status === 'unconfirmed' & <Button size={'small'} variation={"primary"} as={Link} to={`/checkin/${id}`}>Check in</Button> }
+      {status === 'checked-in' &&  <CheckoutButton bookingId={id}>Check in</CheckoutButton> }
+    </StyledTodayItem>
+  )
+}
+
+export default TodayItem

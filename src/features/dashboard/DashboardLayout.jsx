@@ -7,6 +7,7 @@ import Stats from 'src/features/dashboard/Stats.jsx'
 import { useCabins } from 'src/features/cabins/useCabins.js'
 import SalesChart from 'src/features/dashboard/SalesChart.jsx'
 import DurationChart from 'src/features/dashboard/DurationChart.jsx'
+import TodayActivity from 'src/features/check-in-out/TodayActivity.jsx'
 // import PropTypes from 'prop-types'
 
 const StyledDashboardLayout = styled.div`
@@ -27,8 +28,7 @@ const DashboardLayout = () => {
   return (
     <StyledDashboardLayout>
         <Stats confirmedStays={confirmedStays} bookings={bookings} numDays={numDays} cabinCount={cabins.length}/>
-        <div>Static</div>
-        <div>Today activity</div>
+        <TodayActivity />
         <DurationChart confirmedStays={confirmedStays} />
         <SalesChart bookings={bookings} numDays={numDays} />
     </StyledDashboardLayout>
